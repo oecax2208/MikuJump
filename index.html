@@ -66,7 +66,7 @@
 </head>
 
 <body>
-	<canvas id="mainCanvas" ontouchstart="jump()"></canvas>
+	<canvas id="mainCanvas"></canvas>
 	<span id="gameoverText">G a m e o v e r</span>
 	<button id="reloadButton" onclick="reload()">
 		<span id="reloadButtonText">Reload</span>
@@ -97,10 +97,6 @@
 		var over = false;
 		var canvasHeight, canvasWidth;
 		var gameoverText, reloadBtn;
-		canvasWidth = window.innerWidth;
-		canvasHeight = window.innerHeight;
-		canvas.width = canvasWidth;
-		canvas.height = canvasHeight;
 		imgTree.src = "picture/tree.png";
 		imgTrashCan.src = "picture/trashCan.png";
 		rock.src = "picture/rock.png";
@@ -126,9 +122,15 @@
 
 		window.onload = function createACanvas() {
 			document.body.appendChild(canvas);
-			//document.getElementById("startButton").style.display = "none";
+			canvasWidth = window.innerWidth;
+			canvasHeight = window.innerHeight;
+			canvasHeight = (canvasHeight > canvasWidth) ? Math.floor(canvasWidth / 2) : canvasHeight;
+			canvas.width = canvasWidth;
+			canvas.height = canvasHeight;
+
 			gameoverText = document.getElementById("gameoverText");
 			reloadBtn = document.getElementById("reloadButton");
+			screen.start();
 		}
 
 		var screen = {
@@ -158,7 +160,14 @@
 				//trashCan = new enemy(imgTrashCan,canvasWidth-50,canvasHeight * 0.72,27,31,canvasWidth-48,canvasHeight * 0.72+1,23,29);
 				trashCan = new enemy(imgTrashCan, x, y, width, height, x, y, width, height);
 				interval = setInterval(updateScreen, 20);
-				document.addEventListener("keyup", play);
+				// event
+				document.addEventListener("keyup", function(event){
+					if (event.keyCode == 32 && player.jumpTime == 1) jump();
+				});
+				canvas.addEventListener('touchstart', function(e){
+					event.preventDefault();
+					if (player.jumpTime == 1) jump();
+				}, true);
 				canvasWidth = canvas.width;
 				canvasHeight = canvas.height;
 			}
@@ -291,11 +300,6 @@
 				cloudPos = 0;
 		}
 
-		function play(event) {
-			if (event.keyCode == 32 && player.jumpTime == 1) {
-				jump();
-			}
-		}
 		function jump() {
 			player.jumpForce = 25;
 			player.jumpTime--;
@@ -349,7 +353,6 @@
 			reloadBtn.style.display = "none";
 			screen.start();
 		}
-		screen.start();
 
 	</script>
 </body>
