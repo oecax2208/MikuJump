@@ -4,6 +4,7 @@
 (() => {
     function Map(width, height) {
         this.x = 0;
+        this.speed = map_speed;
         this.width = width;
         this.height = height;
 
@@ -119,14 +120,17 @@
 
                 var x = ~~(canvasW / 5);
                 var y = ~~(canvasH / 5);
-                
+
                 for (i in cloudPos) {
                     if (cloudPos[i] != 0) {
 
-
-                        var cx = x * ((~~(i / 50)) * 10 + ((i % 10) <= 4 ? 1 : 2));
+                        // canvas is divided into five, 
+                        // but the map is divided into ten,
+                        // so the position needs to be calculated.
+                        var cx = x * ((~~(i / 50)) * 10 + (i % 10));
                         var cy = y * ((i % 50) / 10);
                         var j = i - 1;
+                        
                         mctx.drawImage(cloudArr[j % 5], cx, cy
                             , cloud_size[(j % 5).toString()].w, cloud_size[(j % 5).toString()].h);
                     }
@@ -142,30 +146,31 @@
 
     }
 
+    Map.prototype.update = function (){
+        this.x += this.speed;
+        if(this.x >= this.width)
+            this.x = 0;
+        this.draw();
+    }
+
     // draw map  to screen
-    Map.prototype.draw = function (xView) {
-
-        var sx, sy, dx, dy;
-        var sWidth, sHeight, dWidth, dHeight;
-
-        sx = xView;
-        sy = 0;
-        sWidth = canvasW;
-        sHeight = canvasH;
+    Map.prototype.draw = function () {
 
         // if cropped image is smaller than canvas we need to change the source dimensions
-        if (this.image.width - sx < sWidth)
-            sWidth = this.image.width - sx;
-        if (this.image.height - sy < sHeight)
-            sHeight = this.image.height - sy;
+        if (this.width - this.x < canvasW){
+            
+            var sWidth = this.width - this.x;
 
-        dx = 0;
-        dy = 0;
-        dWidth = sWidth;
-        dHeight = sHeight;
+            ctx.drawImage(this.image, this.x, 0, sWidth, canvasH, 0, 0, sWidth, canvasH);
 
+            var cx = sWidth;
+            sWidth = canvasW - cx;
+            ctx.drawImage(this.image, 0, 0, sWidth, canvasH, cx, 0, sWidth, canvasH);
+        }
+        else{
+            ctx.drawImage(this.image, this.x, 0, canvasW, canvasH, 0, 0, canvasW, canvasH);
+        }
 
-        ctx.drawImage(this.image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
     }
 
     // add class
@@ -183,6 +188,7 @@
 
         this.jumpTime = 1;
         this.jumpForce = 0;
+        this.speed = player_speed;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -242,12 +248,13 @@
         var eRight = o.crashX + o.crashWidth;
         var eUp = o.crashY;
         var eDown = o.crashY + o.crashHeight;
-        if ((left >= eLeft && left <= eRight) || (right >= eLeft && right <= eRight))
-            if ((up >= eUp && up <= eDown) || (down >= eUp && down <= eDown))
-                Game.Gameover();
-        if (centerX >= eLeft && centerX <= eRight)
-            if (centerY >= eUp && centerY <= eDown)
-                Game.Gameover();
+
+        if (left < eRight &&
+            right > eLeft &&
+            up < eDown &&
+            down > eUp)
+
+            Game.Gameover();
     }
 
     Player.prototype.cry = function cry() {
@@ -263,6 +270,8 @@
     }
 
     Player.prototype.draw = function draw(isCry) {
+
+        //ctx.fillRect(this.crashX, this.crashY, this.crashWidth, this.crashHeight);
 
         //change player picture
         if (!isCry) {
@@ -288,13 +297,14 @@
             if (walkTime >= 30)
                 walkTime = 0;
         }
-
-
+        
         ctx.mozImageSmoothingEnabled = false;
         ctx.webkitImageSmoothingEnabled = false;
         ctx.msImageSmoothingEnabled = false;
         ctx.imageSmoothingEnabled = false;
         ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
+
+
     }
 
 
@@ -319,22 +329,24 @@
         this.crashHeight = crashHeight;
     }
     Enemy.prototype.update = function () {
-        this.x -= speed;
-        this.crashX -= speed;
+        this.x -= player.speed;
+        this.crashX -= player.speed;
 
         this.draw();
     }
     // Back to the right of the screen
     Enemy.prototype.back = function () {
-        if (this.x < -30) {
-            this.x = canvasW - 50;
-            this.crashX = canvasW - 50;
+        if ((this.x < - dis_pos) || over) {
+            var spacing = this.crashX - this.x;
+            this.x = back_pos;
+            this.crashX = this.x + spacing;
 
             Game.rand_enemy();
         }
     }
 
     Enemy.prototype.draw = function draw() {
+        //ctx.fillRect(this.crashX, this.crashY, this.crashWidth, this.crashHeight);
         ctx.mozImageSmoothingEnabled = false;
         ctx.webkitImageSmoothingEnabled = false;
         ctx.msImageSmoothingEnabled = false;
@@ -353,7 +365,9 @@
 (() => {
     Game.Create = () => {
 
-        getScreenSize();
+        getUI();
+        setSize();
+        
 
         var pic_size = {
             player: {
@@ -381,11 +395,11 @@
         map.generate();
 
 
-        var width = canvasW * 0.3 * (pic_size["player"].w / Math.pow(10, pic_size["player"].d));
+        var width = canvasW * 0.15 * (pic_size["player"].w / Math.pow(10, pic_size["player"].d));
         var height = width / (pic_size["player"].w / Math.pow(10, pic_size["player"].d)) * (pic_size["player"].h / Math.pow(10, pic_size["player"].d));
         var x = canvasW * 0.05;
-        var y = horizon - height;
-        player = new Game.Player(x, y, width, height, x, y, width, height
+        var y = canvasH * 0.93 - height;
+        player = new Game.Player(x, y, width, height, x + 10, y + 10, width - 20, height - 20
             , "picture/MikuStand1.png"
             , "picture/MikuStand2.png"
             , "picture/MikuWalk1.png"
@@ -400,7 +414,7 @@
         height = width / (pic_size["tree"].w / Math.pow(10, pic_size["tree"].d)) * (pic_size["tree"].h / Math.pow(10, pic_size["tree"].d));
         x = canvasW * 0.95;
         y = horizon - height + 20; // let tree on the ground 
-        tree = new Game.Enemy("picture/tree.png", x, y, width, height, x, y, width, height);
+        tree = new Game.Enemy("picture/tree.png", x, y, width, height, x + 10, y + 5, width - 20, height - 10);
         enemyArr.push(tree);
 
 
@@ -410,7 +424,7 @@
         x = canvasW * 0.95;
         y = horizon - height;
 
-        car = new Game.Enemy("picture/car.png", x, y, width, height, x, y, width, height);
+        car = new Game.Enemy("picture/car.png", x, y, width, height, x, y + 10, width, height - 10);
         enemyArr.push(car);
 
 
@@ -422,24 +436,36 @@
 
 
 
-
-
-
-
 // ----------------------------
 // Game.Play/Pause
 // ----------------------------
 (() => {
     var runningId = -1;
+    var interval_t = 0;
+
+    function addScore(){
+        if(++interval_t > 1){
+            score_text.innerHTML = ++score;
+            interval_t = 0;
+            if(!(score % 100)){
+                ++map.speed;
+                ++player.speed;
+            }
+            
+        }
+    }
 
     function gameLoop() {
         ctx.clearRect(0, 0, canvasW, canvasH);
-        map.x += mapSpeed;
-        map.draw(map.x);
-        player.update();
+        map.update();
+
         cur_enemy.back();
-        player.crash(cur_enemy);
         cur_enemy.update();
+
+        player.update();
+        player.crash(cur_enemy);
+
+        addScore();
     }
 
     Game.Play = () => {
@@ -447,7 +473,8 @@
         if (runningId == -1) {
             runningId = setInterval(() => {
                 gameLoop();
-            }, 20);
+            }, 16.7);
+
         }
     }
 
@@ -463,11 +490,11 @@
 })();
 
 // ----------------------------
-// Game.Restart
+// Game.rand_enemy
 // ----------------------------
 (() => {
     Game.rand_enemy = () => {
-        cur_enemy = enemyArr[Math.floor(Math.random() * enemyArr.length)];
+        cur_enemy = enemyArr[~~(Math.random() * enemyArr.length)];
     }
 })();
 
@@ -492,14 +519,25 @@
 // ----------------------------
 (() => {
     Game.Restart = () => {
-        over = false;
         gameoverText.style.display = "none";
         reloadBtn.style.display = "none";
 
-        Game.Create();
-        Game.rand_enemy();
+        cur_enemy.back();
+        over = false;
+        Game.Clear();
         Game.Play();
     }
 })();
 
 
+// ----------------------------
+// Game.Clear
+// ----------------------------
+(() => {
+    Game.Clear = () => {
+        player.speed = player_speed;
+        map.speed = map_speed;
+        map.x = 0;
+        score = 0;
+    }
+}) ();

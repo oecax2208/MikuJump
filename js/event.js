@@ -13,4 +13,5 @@ function addEvent(){
         };
     }, true);
 
+    reloadBtn.onclick = Game.Restart;
 }
