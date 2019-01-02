@@ -30,13 +30,12 @@ var over = false;
 
 
 
-
 // -------------------------
 // const
 // -------------------------
 
 // size
-const mapSize = 1;
+const mapSize = 20;
 
 // speed
 const map_speed = 2;
