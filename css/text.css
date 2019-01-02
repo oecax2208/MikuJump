@@ -1,0 +1,27 @@
+@font-face {
+    font-family: 'Malkmus';
+    src: url('font-style/Malkmus_erc_2006.ttf') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('font-style/Malkmus_erc_2006.ttf.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}  
+
+@font-face {
+    font-family: 'RunAway';
+    src: url('font-style/RunAway.ttf') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('font-style/RunAway.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}  
+
+#gameoverText {
+    display: none;
+    text-align: center;
+    z-index: 99;
+    position: relative;
+    font-family: 'Malkmus';
+}
+
+
+#score {
+    font-family: 'RunAway';
+    display: block;
+    z-index: 99;
+    position: absolute;
+}

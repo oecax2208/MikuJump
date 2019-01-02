@@ -8,7 +8,7 @@
 }
 
 
-#reloadButton {
+#reloadBtn {
     display: none;
     position: absolute;
     top: 40%;
@@ -21,29 +21,17 @@
     border: 1.5px solid black;
     width: 15%;
     height: 11%;
-    opacity: 0;
-}
-
-#reloadButton:hover {
-    background: linear-gradient(to left, #66FFFF, #00DDDD, #0066FF);
-    cursor: pointer;
-    color: white;
-    opacity: 1;
-}
-
-#reloadButtonText {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    position: fixed;
     display: none;
+    z-index: 100;
+    background:none;
+    border: none;
+    outline:none;
 }
 
-#reloadButton:hover #reloadButtonText {
-    display: block;
-}
 
-#gameoverText {
-    display: none;
-    z-index: 99;
-    font-size: 100px;
-    position: absolute;
-    top: 10%;
-    left: 20%;
-}
+
+
