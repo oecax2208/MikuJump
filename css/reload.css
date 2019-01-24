@@ -11,26 +11,12 @@
 #reloadBtn {
     display: none;
     position: absolute;
-    top: 40%;
-    left: 40%;
-    background: linear-gradient(#FF8888, red);
-    padding: 10px 20px;
-    text-align: center;
-    font-size: 40px;
-    border-radius: 20px;
-    border: 1.5px solid black;
-    width: 15%;
-    height: 11%;
-    appearance: none;
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    position: fixed;
-    display: none;
     z-index: 100;
     background:none;
     border: none;
     outline:none;
 }
+
 
 
 

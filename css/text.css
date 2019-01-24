@@ -1,7 +1,14 @@
 @font-face {
-    font-family: 'Malkmus';
-    src: url('font-style/Malkmus_erc_2006.ttf') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
-         url('font-style/Malkmus_erc_2006.ttf.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+    font-family: 'Maqueen Sans Demo';
+    src: url('font-style/Maqueen Sans Demo.ttf') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('font-style/Maqueen Sans Demo.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}  
+
+
+@font-face {
+    font-family: 'BLACK Personal Use';
+    src: url('font-style/BLACK Personal Use.ttf') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('font-style/BLACK Personal Use.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }  
 
 @font-face {
@@ -10,18 +17,54 @@
          url('font-style/RunAway.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
 }  
 
+@font-face {
+    font-family: 'MICKEY';
+    src: url('font-style/MICKEY.ttf') format('woff'), /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+         url('font-style/MICKEY.ttf') format('truetype'); /* Chrome 4+, Firefox 3.5, Opera 10+, Safari 3—5 */
+}  
+
+#startText{
+    position: relative;
+    text-align: center;
+    z-index: 99;
+    font-family: 'Maqueen Sans Demo';
+    
+}
+
+#startTextLeft{
+    position: relative;
+    opacity: 0;
+    background: linear-gradient(to right, #30CFD0, #66b3ff, #2828ff, #9f35ff, #330867);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#startTextRight{
+    position: relative;
+    opacity: 0;
+    background: linear-gradient(to left, #30CFD0, #66b3ff, #2828ff,#9f35ff, #330867);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#promptText{
+    font-family: 'MICKEY';
+    position: absolute;
+    opacity: 0;
+}
+
 #gameoverText {
     display: none;
     text-align: center;
     z-index: 99;
     position: relative;
-    font-family: 'Malkmus';
+    font-family: 'BLACK Personal Use';
 }
 
 
 #score {
     font-family: 'RunAway';
-    display: block;
+    display: none;
     z-index: 99;
     position: absolute;
 }

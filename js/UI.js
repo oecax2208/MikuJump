@@ -1,13 +1,17 @@
-function getUI(){
+function getUI() {
     canvas = document.getElementById("mainCanvas");
     ctx = canvas.getContext("2d");
+    startTextDiv = document.getElementById('startText')
+    startTextL = document.getElementById('startTextLeft');
+    startTextR = document.getElementById('startTextRight');
+    promptText = document.getElementById('promptText');
     score_text = document.getElementById('score');
     gameoverText = document.getElementById("gameoverText");
     reloadBtn = document.getElementById("reloadBtn");
 }
 
 
-function setSize(){
+function setStyle() {
 
     canvasW = window.innerWidth;
     canvasH = window.innerHeight;
@@ -19,6 +23,16 @@ function setSize(){
     dis_pos = canvasW * 0.3;
     back_pos = canvasW * 1.5;
 
+
+    startTextDiv.style.fontSize = canvasW * 0.1 + "px";
+    startTextDiv.style.top = canvasH * 0.5 - canvasW * 0.05 + "px";
+    startTextR.style.top = canvasH * 0.3 + "px";
+
+    promptText.style.fontSize = canvasW * 0.03 + "px";
+    promptText.style.top = canvasH * 0.9 - canvasW * 0.015 + "px";
+    promptText.style.left = canvasW * 0.5 - canvasW * 0.03 * 4.5 + "px";
+
+
     score_text.style.fontSize = canvasW * 0.04 + "px";
     score_text.style.top = canvasH * 0.1 + "px";
     score_text.style.right = canvasW * 0.1 + "px";
@@ -26,6 +40,94 @@ function setSize(){
     gameoverText.style.fontSize = canvasW * 0.08 + "px";
     gameoverText.style.top = canvasH * 0.2 + "px";
 
-    reloadBtn.style.top = gameoverText.style.top + document.getElementById('reload').height / 2 + "px";
-    reloadBtn.style.left = canvasW * 0.5  - document.getElementById('reload').width * 0.6 + "px";
+    reloadBtn.style.top = canvasH * 0.45 - document.getElementById('reload').width / 2 + "px";
+    reloadBtn.style.left = canvasW * 0.5 - document.getElementById('reload').width / 2 + "px";
+}
+
+
+function startTextEffectL() {
+    var t = 0;
+    var t_t = 150
+    var s = setInterval(() => {
+
+        startTextL.style.opacity = 1 - (t_t - t) / t_t
+
+        if (++t >= t_t) {
+            clearInterval(s)
+            startTextL.style.opacity = 1
+            startTextEffectR()
+        }
+    }, 10)
+}
+
+function startTextEffectR() {
+
+    var y = canvasH * 0.3;
+    var rebound_t = 5
+    var force = canvasH * 0.05;
+    var sub_force = force / 40
+    var forceArr = [0.00005, 0.0015, 0.003, 0.01, 0.02]
+    var gravity = canvasH * 0.01
+
+    startTextR.style.opacity = 1
+
+    var s = setInterval(() => {
+
+        if (force >= 0)
+            force -= sub_force
+        else
+            force = - gravity
+
+        if (y > 0 && force <= 0) {
+            force = canvasH * forceArr[rebound_t-- - 1]
+            sub_force = force / 40
+
+        }
+
+        y -= force
+        startTextR.style.top = y + 'px'
+
+        if (rebound_t == 0) {
+            clearInterval(s)
+            startTextR.style.top = 0;
+            setTimeout(promptTextEff, 1000)
+        }
+
+    }, 10)
+}
+
+
+function promptTextEff() {
+
+    var t = 0;
+    var sub = 1;
+    var s = setInterval(() => {
+
+        if (start)
+            clearInterval(s)
+
+        if (t > 10 || t < 0) {
+            if (sub == 1)
+                sub = -1
+            else
+                sub = 1
+        }
+
+        t += sub
+        promptText.style.opacity = t / 10
+
+    }, 100)
+
+    document.addEventListener("keydown", tap_start);
+    document.addEventListener('touchstart', tap_start);
+
+}
+
+function closeStartUI() {
+
+    startTextDiv.style.display = 'none'
+    promptText.style.display = 'none'
+
+    score_text.style.display = 'block';
+
 }

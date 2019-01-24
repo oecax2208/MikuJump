@@ -88,7 +88,6 @@
             , 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
             // ----------------------------
         ];
-
         var cloud_size = {
             "0": { w: 43 * 3, h: 28 * 3 },
             "1": { w: 29 * 3, h: 21 * 3 },
@@ -366,8 +365,7 @@
     Game.Create = () => {
 
         getUI();
-        setSize();
-        
+        setStyle();
 
         var pic_size = {
             player: {
@@ -418,7 +416,6 @@
         enemyArr.push(tree);
 
 
-
         width = canvasW * 0.5 * (pic_size["car"].w / Math.pow(10, pic_size["car"].d));
         height = width / (pic_size["car"].w / Math.pow(10, pic_size["car"].d)) * (pic_size["car"].h / Math.pow(10, pic_size["car"].d));
         x = canvasW * 0.95;
@@ -427,11 +424,9 @@
         car = new Game.Enemy("picture/car.png", x, y, width, height, x, y + 10, width, height - 10);
         enemyArr.push(car);
 
-
-        addEvent();
+        startTextEffectL()
 
     }
-
 })();
 
 
@@ -470,6 +465,7 @@
 
     Game.Play = () => {
 
+        closeStartUI()
         if (runningId == -1) {
             runningId = setInterval(() => {
                 gameLoop();

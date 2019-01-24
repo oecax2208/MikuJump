@@ -3,10 +3,17 @@ window.Game = {};
 // ---------------------------
 // var
 // ---------------------------
+// UI
 var canvas, ctx;
 var canvasH, canvasW;
 var gameoverText, reloadBtn;
+//  class    /  id --->
+var startText, startTextDiv, startTextL, startTextR;
+var promptText;
 var score_text, score = 0;
+
+
+
 var horizon;
 // enemy disappear & back position 
 var dis_pos, back_pos;
@@ -24,10 +31,13 @@ var blinkTime = 0;
 var walkTime = 0;
 
 
+var start = false;
 // is gameover ? 
 var over = false;
 
 
+// voice
+var voice_1 = new Audio('voice/miku_1.mp3');
 
 
 // -------------------------
