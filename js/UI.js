@@ -1,6 +1,7 @@
 function getUI() {
     canvas = document.getElementById("mainCanvas");
     ctx = canvas.getContext("2d");
+    startBtn = document.getElementById('startBtn');
     startTextDiv = document.getElementById('startText')
     startTextL = document.getElementById('startTextLeft');
     startTextR = document.getElementById('startTextRight');
@@ -23,6 +24,10 @@ function setStyle() {
     dis_pos = canvasW * 0.3;
     back_pos = canvasW * 1.5;
 
+    startBtn.style.fontSize = canvasW * 0.03 + "px";
+    startBtn.style.top = canvasH * 0.5 - canvasW * 0.06 + "px";
+    startBtn.style.left = canvasW * 0.5 - canvasW * 0.06 + "px";
+
 
     startTextDiv.style.fontSize = canvasW * 0.1 + "px";
     startTextDiv.style.top = canvasH * 0.5 - canvasW * 0.05 + "px";
@@ -44,13 +49,27 @@ function setStyle() {
     reloadBtn.style.left = canvasW * 0.5 - document.getElementById('reload').width / 2 + "px";
 }
 
+function startBtnClick() {
+
+    startBtn.remove();
+    Game.Create(); 
+    Game.rand_enemy();
+}
+
 
 function startTextEffectL() {
     var t = 0;
-    var t_t = 150
+    var t_t = 120
+    var flag = true;
+
     var s = setInterval(() => {
 
         startTextL.style.opacity = 1 - (t_t - t) / t_t
+
+        if (t >= t_t / 4 && flag) {
+            voice_title[0].play();
+            flag = false;
+        }
 
         if (++t >= t_t) {
             clearInterval(s)
@@ -94,6 +113,8 @@ function startTextEffectR() {
         }
 
     }, 10)
+
+    voice_title[1].play();
 }
 
 

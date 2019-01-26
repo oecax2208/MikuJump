@@ -6,7 +6,7 @@ window.Game = {};
 // UI
 var canvas, ctx;
 var canvasH, canvasW;
-var gameoverText, reloadBtn;
+var gameoverText, startBtn, reloadBtn;
 //  class    /  id --->
 var startText, startTextDiv, startTextL, startTextR;
 var promptText;
@@ -37,7 +37,8 @@ var over = false;
 
 
 // voice
-var voice_1 = new Audio('voice/miku_1.mp3');
+var voice_title = [];
+var voice_miku = [];
 
 
 // -------------------------

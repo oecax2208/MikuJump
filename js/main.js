@@ -1,8 +1,9 @@
 
 window.onload = () => {
 
-    Game.Create();
-    Game.rand_enemy();
+    getUI();
+    setStyle();
+    load_file()
 }
 
 

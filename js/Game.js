@@ -364,9 +364,6 @@
 (() => {
     Game.Create = () => {
 
-        getUI();
-        setStyle();
-
         var pic_size = {
             player: {
                 w: 49,
@@ -505,6 +502,7 @@
         gameoverText.style.display = "block";
         reloadBtn.style.display = "block";
 
+        voice_miku[3].play();
         player.cry();
     }
 })();

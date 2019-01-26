@@ -13,18 +13,22 @@ function addGameEvent() {
 
     document.addEventListener("keyup", function (event) {
         if (event.keyCode == 32 && player.jumpTime == 1 && start && !over) {
+            
             player.jumpForce = 25;
             player.jumpTime--;
-            voice_1.play()
+
+            voice_miku[~~(Math.random() * 3)].play()
         }
     });
 
     document.addEventListener('touchstart', function (event) {
         event.preventDefault();
         if (player.jumpTime == 1 && !over) {
+
             player.jumpForce = 25;
             player.jumpTime--;
-            voice_1.play()
+
+            voice_miku[~~(Math.random() * 3)].play()
         };
     }, true);
 
