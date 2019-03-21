@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title>MikuJump</title>
+	<title>Hatsune Miku Jump</title>
 	<script src="js/var.js"></script>
 	<script src="js/file.js"></script>
 	<script src="js/event.js"></script>
@@ -13,10 +13,19 @@
 	<link rel="stylesheet" type="text/css" href="css/canvas.css">
 	<link rel="stylesheet" type="text/css" href="css/button.css">
 	<link rel="stylesheet" type="text/css" href="css/text.css">
+<style type="text/css">
+	
+</style>
 
 </head>
 
-<body>
+<body style="background-image: url('picture/22.jpg'); background-position: ">
+	<div style="display: none;">
+												<audio controls="controls" autoplay="audio"">
+                                                      Your browser does not support the <code>audio</code> element.
+                                                      <source src="voice/play.mp3" type="audio/mp3" title="IEVAN Volka">
+                                                    </audio>
+                                               </div>
 	<button id="startBtn" type="button" onclick="startBtnClick()">Click Me!</button>
 	<canvas id="mainCanvas"></canvas>
 	<span id="score">00</span>
@@ -36,7 +45,7 @@
 		</span>
 	</div>
 	<div id="promptText">tap to start</div>
-	<div id="gameoverText">Gameover</div>
+	<div id="gameoverText">GAMEOVER</div>
 	<button id="reloadBtn">
 		<img id="reload" src="picture/reload.png" />
 	</button>

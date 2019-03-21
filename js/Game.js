@@ -101,11 +101,11 @@
             cloudArr[i].setAttribute('crossOrigin', 'anonymous');
         }
 
-        cloudArr[0].src = "https://i.imgur.com/Mv6nh6Q.png";
-        cloudArr[1].src = "https://i.imgur.com/BhwN5Fe.png";
-        cloudArr[2].src = "https://i.imgur.com/bxYs0oG.png";
-        cloudArr[3].src = "https://i.imgur.com/H7RanFm.png";
-        cloudArr[4].src = "https://i.imgur.com/MLoD9NY.png";
+        cloudArr[0].src = "picture/cloud1.png";
+        cloudArr[1].src = "picture/cloud2.png";
+        cloudArr[2].src = "picture/cloud3.png";
+        cloudArr[3].src = "picture/cloud4.png";
+        cloudArr[4].src = "picture/cloud5.png";
 
         var counter = 0, len = 0;
         for (i in cloudArr) {
